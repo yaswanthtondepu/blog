@@ -1,3 +1,132 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Moon+Dance&display=swap');
+
+:root {
+  --blue: #11729c;
+  --white: #ffffff;
+  --form-boder: rgb(163,163,163);
+  --bg-hover:rgba(59,73,223,0.1);
+  --bg-gray: #f5f5f5;
+}
+
+.btn{
+    cursor: pointer;
+    border: 1px solid var(--blue);
+    padding: 0.4rem;
+    border-radius: 5px;
+    color: var(--blue);
+}
+
+.btn:hover{
+    background-color: var(--blue);
+    color: #fff;
+}
+
+.search, .search-small{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border: 1px solid var(--form-boder);
+    outline: none;
+    padding: 0 0 0 5px;
+    border-radius: 5px;
+    font-size: 18px;
+    width: 350px;
+}
+.search-container-small{
+    width: 100%;
+    display: none;
+    justify-content: center;
+    padding-top: 1rem;
+
+}
+.search-small{
+    width: 250px !important;
+    justify-content: center !important;
+}
+
+.search:focus, .search-small:focus{
+    border: 2px solid var(--blue);
+}
+.inp-text{
+    outline: none;
+    flex-basis: 90%;
+}
+.right-nav{
+    padding-right: 2rem;
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+}
+
+.profile{
+   background-color: #ced3d9;
+   padding: 7px;
+   border-radius: 50%;
+   position: relative;
+}
+.profile-info{
+    position: absolute;
+    z-index: 5;
+    background: white;
+    padding: 10px 25px;
+    left: -150px;
+    top: 60px;
+    width: 200px;
+    border-radius: 5px;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+.profile-options, .profile-options2{
+    border-bottom: 1px solid var(--form-boder);
+}
+.profile-options2 >div, .profile-options3 >div{
+    padding: 5px 0.75rem;
+}
+.profile-options:hover,.profile-options2 >div:hover,.profile-options3 >div:hover{
+    background-color: var(--bg-hover);
+    color: var(--blue);
+    border-radius: 5px;
+}
+
+.create-post{
+    background-color: var(--bg-gray);
+}
+.close-icon:hover{
+    background-color: var(--bg-hover);
+    border-radius: 5px;
+}
+
+.editor-container{
+    background-color: #ffffff;
+    margin: 2rem 8rem;
+    border: 2px solid #e2e2e2;
+    border-radius: 5px;
+}
+
+
+@media only screen and (max-device-width: 718px) {
+    .left-header{
+        flex-direction: column;
+        gap:10px !important;
+    }
+    .search{
+        display: none;
+    }
+    .navbar{
+        height: 80px;
+    }
+    .search-container-small{
+        display: flex;
+    }
+    .profile-info{
+        width: 80vw;
+        left:-70vw;
+    }
+    
+}
