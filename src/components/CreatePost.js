@@ -10,6 +10,7 @@ import MdEditor from 'react-markdown-editor-lite';
 // import style manually
 import 'react-markdown-editor-lite/lib/index.css';
 import Modal from './Modal';
+import { useNavigate } from 'react-router-dom';
 
 
 
@@ -21,6 +22,7 @@ const CreatePost = () => {
     const [postContentHtml, setPostContentHtml] = useState('');
     const [postContentText, setPostContentText] = useState('');
     const [showModal, setShowModal] = useState(false);
+    const navigate = useNavigate();
 
     // Finish!
     function handleEditorChange({ html, text }) {
@@ -28,16 +30,24 @@ const CreatePost = () => {
         setPostContentHtml(html);
         setPostContentText(text);
     }
-    
+    function toggleModal(){
+        if(postContentText.length > 0 || postTitle.length > 0){
+            setShowModal(true);
+        }
+        else{
+            navigate("/");
+        }
+    }
 
     return (
         <div className='create-post'>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                <div>
+                <div style={{display:"flex", alignItems:"center", gap:"2rem"}}>
                     <Link to="/" style={{ fontFamily: "Moon Dance", fontSize: "2.5rem", marginLeft: "2rem" }}>BlogYY</Link>
+                    <div style={{fontWeight:"600"}}>Create post</div>
                 </div>
                 <div style={{ marginRight: "2rem", padding: "5px", fontSize: "25px", cursor: "pointer" }} 
-                className="close-icon" title='Close the editor' onClick={()=> setShowModal(true)}>
+                className="close-icon" title='Close the editor' onClick={toggleModal}>
                     <IoClose />
                 </div>
             </div>
