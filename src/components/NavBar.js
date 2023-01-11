@@ -3,8 +3,12 @@ import { Link } from "react-router-dom";
 import { CiSearch } from "react-icons/ci";
 import { IoPerson } from "react-icons/io5";
 import { useState } from "react";
+import useComponentVisible from "./useComponentVisible";
+
 const NavBar = () => {
   const [showProfileInfo, setShowProfileInfo] = useState(false);
+  const { ref, isComponentVisible, setIsComponentVisible } = useComponentVisible(false);
+
   return (
     <>
       <div style={Nav} className="navbar">
@@ -21,25 +25,28 @@ const NavBar = () => {
         </div>
 
         <div className="right-nav">
-          <div className="btn" >
-            <Link to="/createpost">Create Post</Link>
-          </div>
-          <div className="profile">
-            <IoPerson style={{ fontSize: "1.5rem", cursor: "pointer" }} onClick={() => setShowProfileInfo(!showProfileInfo)} />
-            {showProfileInfo && <div className="profile-info" onClick={() => setShowProfileInfo(!showProfileInfo)}>
-              <div className="profile-options">
-                <div className="pl-3">Yashu</div>
-                <div className="pl-3 text-sm">@yashu</div>
-              </div>
 
-              <div className="profile-options2">
-                <div><Link to="/createpost">Create Post</Link></div>
-                <div>Settings</div>
-              </div>
-              <div className="profile-options3">
-                <div>Logout</div>
-              </div>
-            </div>}
+          <Link to="/createpost" className="btn">Create Post</Link>
+
+          <div className="profile">
+            <IoPerson style={{ fontSize: "1.5rem", cursor: "pointer" }} onClick={() => { setIsComponentVisible(!isComponentVisible) ; setShowProfileInfo(!showProfileInfo)} }/>
+            <div ref={ref}>
+              {isComponentVisible && showProfileInfo &&
+                (<div className="profile-info" onClick={() => setIsComponentVisible(!isComponentVisible)}>
+                  <div className="profile-options">
+                    <div className="pl-3">Yashu</div>
+                    <div className="pl-3 text-sm">@yashu</div>
+                  </div>
+
+                  <div className="profile-options2">
+                    <div><Link to="/createpost">Create Post</Link></div>
+                    <div>Settings</div>
+                  </div>
+                  <div className="profile-options3">
+                    <div>Logout</div>
+                  </div>
+                </div>)}
+            </div>
           </div>
 
         </div>
