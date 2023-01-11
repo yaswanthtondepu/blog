@@ -1,54 +1,78 @@
 import React from 'react'
 
-import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
-import { EditorState, convertToRaw } from 'draft-js';
-import { Editor } from 'react-draft-wysiwyg';
-import draftToHtml from 'draftjs-to-html';
-import htmlToDraft from 'html-to-draftjs';
+
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { IoClose } from 'react-icons/io5';
 
-const CreatePost = () => {
-    const [editorState, setEditorState] = useState(EditorState.createEmpty())
+import MarkdownIt from 'markdown-it';
+import MdEditor from 'react-markdown-editor-lite';
+// import style manually
+import 'react-markdown-editor-lite/lib/index.css';
+import Modal from './Modal';
 
-    const onEditorStateChange = (editorState) => {
-        setEditorState(editorState)
-        console.log(draftToHtml(convertToRaw(editorState.getCurrentContent())))
+
+
+const CreatePost = () => {
+
+    const mdParser = new MarkdownIt(/* Markdown-it options */);
+
+    const [postTitle, setPostTitle] = useState('');
+    const [postContentHtml, setPostContentHtml] = useState('');
+    const [postContentText, setPostContentText] = useState('');
+    const [showModal, setShowModal] = useState(false);
+
+    // Finish!
+    function handleEditorChange({ html, text }) {
+        // console.log('handleEditorChange', html, text);
+        setPostContentHtml(html);
+        setPostContentText(text);
     }
+    
+
     return (
         <div className='create-post'>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                 <div>
                     <Link to="/" style={{ fontFamily: "Moon Dance", fontSize: "2.5rem", marginLeft: "2rem" }}>BlogYY</Link>
                 </div>
-                <div style={{ marginRight: "2rem", padding: "5px", fontSize: "25px", cursor: "pointer" }} className="close-icon" title='Close the editor'>
+                <div style={{ marginRight: "2rem", padding: "5px", fontSize: "25px", cursor: "pointer" }} 
+                className="close-icon" title='Close the editor' onClick={()=> setShowModal(true)}>
                     <IoClose />
                 </div>
             </div>
 
-            <div className='editor-container'>
+            <div className='editor-container1'>
 
                 <div>
-                    <input type="text" placeholder="New post title here..." />
+                    <input type="text" placeholder="New post title here..." className='cp-title-inp' 
+                    value={postTitle}  onChange={(e) => setPostTitle(e.target.value)}/>
                 </div>
 
-
                 <div>
+                    <MdEditor style={{ height: '400px' }} renderHTML={text => mdParser.render(text)} onChange={handleEditorChange} />
+                </div>
 
-                    <Editor
-                        editorState={editorState}
-                        toolbarClassName="toolbarClassName"
-                        wrapperClassName="wrapperClassName"
-                        editorClassName="editorClassName"
-                        onEditorStateChange={onEditorStateChange}
-                    />
+            </div>
+
+            <div className='cp-btn-container'>
+                <div>
+                    <button className='cp-publish-btn'>Publish</button>
+                </div>
+                <div>
+                    <button className='cp-draft-btn'>Save as Draft</button>
                 </div>
             </div>
+           {showModal && <Modal title="You have unsaved changes" 
+            content="You've made changes to your post. Do you want to navigate to leave this page?" 
+            btn1="Yes, leave the page" btn2="No, keep editing" setShowModal={setShowModal}/>}
         </div>
+
+        
 
 
     )
 }
+
 
 export default CreatePost

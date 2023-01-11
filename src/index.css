@@ -96,17 +96,109 @@
 
 .create-post{
     background-color: var(--bg-gray);
+    height: 100vh;
 }
 .close-icon:hover{
     background-color: var(--bg-hover);
     border-radius: 5px;
 }
 
-.editor-container{
+.editor-container1{
     background-color: #ffffff;
     margin: 2rem 8rem;
     border: 2px solid #e2e2e2;
     border-radius: 5px;
+}
+
+.cp-title-inp{
+    outline: none;
+    border: none;
+    font-size: 48px;
+    font-weight: 600;
+    padding: 0.5rem 2rem;
+    width: 100%;
+}
+.cp-publish-btn{
+    background-color: var(--blue);
+    color: #fff;
+    padding: 0.5rem 1.5rem;
+    border-radius: 5px;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.cp-draft-btn{
+ padding: 0.5rem 1.5rem;
+}
+.cp-draft-btn:hover{
+    background-color: var(--bg-hover);
+    color: var(--blue);
+    border-radius: 5px;
+}
+
+.cp-btn-container{
+    display: flex;
+    align-items: center;
+    margin-top: 1rem;
+    margin-left: 8rem;
+    gap: 2rem;
+}
+
+.modal{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    z-index: 10;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.modal-content{
+    background-color: #fff;
+    padding: 1rem;
+    border-radius: 5px;
+    width: 600px;
+    height: 230px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+.modal-header{
+    border-bottom: 1px solid var(--form-boder);
+    padding-bottom: 1rem;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.modal-content >div{
+    display: flex;
+    align-items: center;
+    width: 100%;
+    gap:2rem;
+}
+.modal-content >div >div{
+    display: flex;
+    gap: 1rem;
+}
+.modal-footer{
+    padding-bottom: 1rem;
+}
+.btn-warn{
+    background-color: #dc2626 !important;
+    color: #fff !important;
+    border:none;
+}
+
+.btn-secondary{
+   background-color: #d6d6d7;
+   color:#3d3d3d;
+    border:none;
 }
 
 
@@ -128,5 +220,23 @@
         width: 80vw;
         left:-70vw;
     }
-    
+    .editor-container1{
+        margin: 5px;
+    }
+    .cp-btn-container{
+        margin-left: 5px;
+        margin-top: 2rem;
+    }
+    .cp-title-inp{
+        font-size: 32px;
+    }
+
+    .modal-content{
+        width: 100%;
+        height: 100%;
+        justify-content: flex-start;
+    }
+    .modal-body{
+        padding: 2rem 0;
+    }
 }
