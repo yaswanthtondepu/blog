@@ -67,6 +67,7 @@
    padding: 7px;
    border-radius: 50%;
    position: relative;
+   cursor: pointer;
 }
 .profile-info{
     position: absolute;

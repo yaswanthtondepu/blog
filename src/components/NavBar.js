@@ -28,8 +28,8 @@ const NavBar = () => {
 
           <Link to="/createpost" className="btn">Create Post</Link>
 
-          <div className="profile">
-            <IoPerson style={{ fontSize: "1.5rem", cursor: "pointer" }} onClick={() => { setIsComponentVisible(!isComponentVisible) ; setShowProfileInfo(!showProfileInfo)} }/>
+          <div className="profile" onClick={() => { setIsComponentVisible(!isComponentVisible); setShowProfileInfo(!showProfileInfo) }}>
+            <IoPerson style={{ fontSize: "1.5rem", cursor: "pointer" }}/>
             <div ref={ref}>
               {isComponentVisible && showProfileInfo &&
                 (<div className="profile-info" onClick={() => setIsComponentVisible(!isComponentVisible)}>
