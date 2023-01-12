@@ -62,7 +62,7 @@ const CreatePost = () => {
                     </div>
 
                     <div>
-                        <MdEditor style={{ height: '400px' }} renderHTML={text => mdParser.render(text)} onChange={handleEditorChange} />
+                        <MdEditor style={{ height: "calc(100vh - 300px)"}} renderHTML={text => mdParser.render(text)} onChange={handleEditorChange} />
                     </div>
 
                 </div>

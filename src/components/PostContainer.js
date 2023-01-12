@@ -4,7 +4,7 @@ import NavBar from './NavBar'
 import { data } from '../data'
 import { useState, useEffect } from 'react'
 
-const PostContainer = () => {
+const  PostContainer = () => {
     const { postId } = useParams();
     const [post, setPost] = useState({});
     useEffect(() => {
@@ -24,22 +24,14 @@ const PostContainer = () => {
     console.log(postId);
   return (
     <>
-        <NavBar />
-        <div className='post-content'>
-            <div>
-                
-            </div>
-            <div>
-
-            </div>
-            <div>
-
-            </div>
-        </div>
-
+      <NavBar />
+      <div className="post-content">
+        <div style={{ flex: "1" }}>left box</div>
+        <div style={{width:"40%",backgroundColor:"white",borderRadius:"20px"}}>Hello</div>
+        <div style={{ flex: "1" }}>right box</div>
+      </div>
     </>
-
-  )
+  );
 }
 
 export default PostContainer

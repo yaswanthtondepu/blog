@@ -265,6 +265,7 @@ body{
     background-color: var(--bg-gray);
     height: calc(100vh - 60px);
     overflow: auto;
+    display: flex;
 }
 
 @media only screen and (max-device-width: 718px) {
