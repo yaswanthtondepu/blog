@@ -64,7 +64,6 @@ const NavBar = () => {
 };
 
 const Nav = {
-  height: "70px",
   display: "flex",
   fontSize: "1.2rem",
   boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px",

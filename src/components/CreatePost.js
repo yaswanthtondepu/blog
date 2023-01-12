@@ -30,11 +30,11 @@ const CreatePost = () => {
         setPostContentHtml(html);
         setPostContentText(text);
     }
-    function toggleModal(){
-        if(postContentText.length > 0 || postTitle.length > 0){
+    function toggleModal() {
+        if (postContentText.trim().length > 0 || postTitle.trim().length > 0) {
             setShowModal(true);
         }
-        else{
+        else {
             navigate("/");
         }
     }
@@ -42,27 +42,30 @@ const CreatePost = () => {
     return (
         <div className='create-post'>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                <div style={{display:"flex", alignItems:"center", gap:"2rem"}}>
+                <div style={{ display: "flex", alignItems: "center", gap: "2rem" }}>
                     <Link to="/" style={{ fontFamily: "Moon Dance", fontSize: "2.5rem", marginLeft: "2rem" }}>BlogYY</Link>
-                    <div style={{fontWeight:"600"}}>Create post</div>
+                    <div style={{ fontWeight: "600" }}>Create post</div>
                 </div>
-                <div style={{ marginRight: "2rem", padding: "5px", fontSize: "25px", cursor: "pointer" }} 
-                className="close-icon" title='Close the editor' onClick={toggleModal}>
+                <div style={{ marginRight: "2rem", padding: "5px", fontSize: "25px", cursor: "pointer" }}
+                    className="close-icon" title='Close the editor' onClick={toggleModal}>
                     <IoClose />
                 </div>
             </div>
 
-            <div className='editor-container1'>
+            <div>
 
-                <div>
-                    <input type="text" placeholder="New post title here..." className='cp-title-inp' 
-                    value={postTitle}  onChange={(e) => setPostTitle(e.target.value)}/>
+                <div className='editor-container1'>
+
+                    <div>
+                        <input type="text" placeholder="New post title here..." className='cp-title-inp'
+                            value={postTitle} onChange={(e) => setPostTitle(e.target.value)} />
+                    </div>
+
+                    <div>
+                        <MdEditor style={{ height: '400px' }} renderHTML={text => mdParser.render(text)} onChange={handleEditorChange} />
+                    </div>
+
                 </div>
-
-                <div>
-                    <MdEditor style={{ height: '400px' }} renderHTML={text => mdParser.render(text)} onChange={handleEditorChange} />
-                </div>
-
             </div>
 
             <div className='cp-btn-container'>
@@ -73,12 +76,12 @@ const CreatePost = () => {
                     <button className='cp-draft-btn'>Save as Draft</button>
                 </div>
             </div>
-           {showModal && <Modal title="You have unsaved changes" 
-            content="You've made changes to your post. Do you want to navigate to leave this page?" 
-            btn1="Yes, leave the page" btn2="No, keep editing" setShowModal={setShowModal}/>}
+            {showModal && <Modal title="You have unsaved changes"
+                content="You've made changes to your post. Do you want to navigate to leave this page?"
+                btn1="Yes, leave the page" btn2="No, keep editing" setShowModal={setShowModal} />}
         </div>
 
-        
+
 
 
     )
