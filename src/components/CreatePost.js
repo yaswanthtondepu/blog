@@ -23,7 +23,7 @@ const CreatePost = () => {
     const [postContentText, setPostContentText] = useState('');
     const [showModal, setShowModal] = useState(false);
     const navigate = useNavigate();
-
+    console.log(postContentHtml)
     // Finish!
     function handleEditorChange({ html, text }) {
         // console.log('handleEditorChange', html, text);

@@ -1,7 +1,7 @@
 import React from 'react'
 import { IoPerson, IoHeartOutline } from "react-icons/io5";
 import { FaRegComment } from "react-icons/fa";
-import { BsBookmark, BsBookmarkFill } from "react-icons/bs";
+import { BsBookmark} from "react-icons/bs";
 import { Link } from 'react-router-dom';
 
 
