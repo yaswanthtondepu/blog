@@ -9,6 +9,7 @@ const NavBar = () => {
   const [showProfileInfo, setShowProfileInfo] = useState(false);
   const { ref, isComponentVisible, setIsComponentVisible } = useComponentVisible(false);
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
+  setIsUserLoggedIn(false);
 
   return (
     <>
