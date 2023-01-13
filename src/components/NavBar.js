@@ -8,6 +8,7 @@ import useComponentVisible from "./useComponentVisible";
 const NavBar = () => {
   const [showProfileInfo, setShowProfileInfo] = useState(false);
   const { ref, isComponentVisible, setIsComponentVisible } = useComponentVisible(false);
+  const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
 
   return (
     <>
@@ -26,9 +27,10 @@ const NavBar = () => {
 
         <div className="right-nav">
 
-          <Link to="/createpost" className="btn">Create Post</Link>
+          { isUserLoggedIn &&<Link to="/createpost" className="btn">Create Post</Link>}
+          {!isUserLoggedIn && <Link to="/register" className="btn">Create account</Link>}
 
-          <div className="profile" onClick={() => { setIsComponentVisible(!isComponentVisible); setShowProfileInfo(!showProfileInfo) }}>
+          {isUserLoggedIn && <div className="profile" onClick={() => { setIsComponentVisible(!isComponentVisible); setShowProfileInfo(!showProfileInfo) }}>
             <IoPerson style={{ fontSize: "1.5rem", cursor: "pointer" }}/>
             <div ref={ref}>
               {isComponentVisible && showProfileInfo &&
@@ -47,7 +49,7 @@ const NavBar = () => {
                   </div>
                 </div>)}
             </div>
-          </div>
+          </div>}
 
         </div>
       </div>
