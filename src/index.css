@@ -211,9 +211,25 @@ body{
     background-color: var(--bg-gray);
     height: calc(100vh - 60px);
     display: flex;
-    justify-content: space-evenly;
+
     padding-top: 1rem;
     overflow: auto;
+}
+div.home-page div.side-bar{
+    flex:1;
+    display:flex;
+}
+div.side-bar.left{
+
+    flex-direction: column;
+}
+.side-bar.left .items{
+    padding: 10px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+.side-bar.left .items:hover{
+    background-color: lightblue;
 }
 
 .posts{
