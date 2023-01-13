@@ -267,6 +267,45 @@ body{
     overflow: auto;
     display: flex;
 }
+.register{
+    background-color: var(--bg-gray);
+    height: calc(100vh - 60px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.register-form{
+    background-color: #fff;
+    border-radius: 5px;
+    padding: 2rem;
+    margin: 2rem auto;
+}
+.form-group{
+    padding: 0 2rem;
+}
+.register-form-header{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 2rem;
+    margin-bottom: 1rem;
+    font-size: 24px;
+    font-weight: 600;
+}
+.form-group >input{
+    width: 100%;
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--form-boder);
+    border-radius: 5px;
+    outline: none;
+    margin-bottom: 1rem;
+}
+.form-group >input:focus{
+    border: 1px solid var(--blue);
+}
+.form-group > button{
+    width:100px;
+}
 
 @media only screen and (max-device-width: 718px) {
     .left-header{
