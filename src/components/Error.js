@@ -2,7 +2,7 @@ import React from 'react'
 
 const Error = ({msg}) => {
   return (
-    <div>{msg} Error</div>
+    <div>{msg}</div>
   )
 }
 

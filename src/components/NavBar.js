@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { CiSearch } from "react-icons/ci";
 import { IoPerson } from "react-icons/io5";
@@ -9,7 +9,18 @@ const NavBar = () => {
   const [showProfileInfo, setShowProfileInfo] = useState(false);
   const { ref, isComponentVisible, setIsComponentVisible } = useComponentVisible(false);
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
-  setIsUserLoggedIn(false);
+  const [userDetails, setUserDetails] = useState({});
+  useEffect(() => {
+    if (sessionStorage.getItem("user")) {
+      setIsUserLoggedIn(true);
+      setUserDetails(JSON.parse(sessionStorage.getItem("user")));
+    }
+  },[isUserLoggedIn]);
+  
+  function logOut() {
+    sessionStorage.removeItem("user");
+    setIsUserLoggedIn(false);
+  }
 
   return (
     <>
@@ -29,6 +40,7 @@ const NavBar = () => {
         <div className="right-nav">
 
           { isUserLoggedIn &&<Link to="/createpost" className="btn">Create Post</Link>}
+          {!isUserLoggedIn && <Link to="/login" className="btn1">Login</Link>}
           {!isUserLoggedIn && <Link to="/register" className="btn">Create account</Link>}
 
           {isUserLoggedIn && <div className="profile" onClick={() => { setIsComponentVisible(!isComponentVisible); setShowProfileInfo(!showProfileInfo) }}>
@@ -37,15 +49,15 @@ const NavBar = () => {
               {isComponentVisible && showProfileInfo &&
                 (<div className="profile-info" onClick={() => setIsComponentVisible(!isComponentVisible)}>
                   <div className="profile-options">
-                    <div className="pl-3">Yashu</div>
-                    <div className="pl-3 text-sm">@yashu</div>
+                  <div className="pl-3">{userDetails.firstname} {userDetails.lastname}</div>
+                    <div className="pl-3 text-sm">@{userDetails.username}</div>
                   </div>
 
                   <div className="profile-options2">
                     <div><Link to="/createpost">Create Post</Link></div>
                     <div>Settings</div>
                   </div>
-                  <div className="profile-options3">
+                  <div className="profile-options3" onClick={logOut}>
                     <div>Logout</div>
                   </div>
                 </div>)}

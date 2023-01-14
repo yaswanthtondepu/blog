@@ -1,14 +1,20 @@
 import React from 'react'
 import NavBar from './NavBar'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Error from './Error';
 
 const Register = () => {
     const [error, setError] = useState(null);
     const navigate = useNavigate();
-    function handleSubmit(e){
+    useEffect(() => {
+        document.title = 'Register';
+        if(sessionStorage.getItem('user')) {
+            navigate('/');
+        }
+    }, [navigate]);
+    function handleSubmit(e) {
         e.preventDefault();
         setError(null);
         const userName = e.target.username.value;
@@ -20,15 +26,15 @@ const Register = () => {
 
         let userNameRegex = /^[a-zA-Z0-9_]+$/;
         let passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,20}$/;
-        if(!userNameRegex.test(userName)){
+        if (!userNameRegex.test(userName)) {
             setError('Username can only contain letters, numbers and underscores');
             return;
         }
-        else if( !passwordRegex.test(password)){
-            setError('Password must be between 8 and 20 characters long and must contain at least one lowercase letter, one uppercase letter, one numeric digit, and one special character');
+        else if (!passwordRegex.test(password)) {
+            setError('Password must be between 8 and 20 characters long and must contain at least one lowercase letter, one uppercase letter, one digit, and one special character');
             return;
         }
-        else if(password !== password2){
+        else if (password !== password2) {
             setError('Passwords do not match');
             return;
         }
@@ -46,7 +52,7 @@ const Register = () => {
             headers: {
                 'content-type': 'application/json'
             },
-            data: { newUser}
+            data: { newUser }
         })
             .then(result => {
                 console.log(result.data);
@@ -59,20 +65,20 @@ const Register = () => {
                     }, 500)
                 }
                 else if (result.data.error) {
-                    if(result.data.error.code === 1){
+                    if (result.data.error.code === 1) {
                         setError('Username already exists');
                         return;
                     }
-                    else if(result.data.error.code === 2){
+                    else if (result.data.error.code === 2) {
                         setError('Email already exists');
                         return;
                     }
-                    else if(result.data.error.code === 3){
+                    else if (result.data.error.code === 3) {
                         setError('Something went wrong. Please try again later');
                         return;
                     }
                 }
-                else{
+                else {
                     setError('Something went wrong. Please try again later');
                     return;
                 }
@@ -89,9 +95,12 @@ const Register = () => {
                     <div className='register-form-header'>
                         <h3>Register</h3>
                     </div>
-                    <div style={{display:"flex", alignItems:"center", justifyContent:"center", padding:"1rem 0"}}>
-                        {error && <Error msg={error} />}
-                    </div>
+                    {error &&
+                    <div className='error'>
+                        <div style={{ padding: "0 0.5rem" }}>
+                            <Error msg={error} />
+                        </div>
+                    </div>}
                     <div className='register-form-body'>
                         <form onSubmit={handleSubmit} id="register-form">
                             <div className='form-group'>
@@ -118,12 +127,18 @@ const Register = () => {
                                 {/* <label htmlFor='password2'>Confirm Password</label> */}
                                 <input type='password' name='password2' placeholder='Confirm Password' required />
                             </div>
-                           
+
 
                             <div className='form-group flex items-center justify-center'>
                                 <button className='btn btn-primary'>Submit</button>
                             </div>
                         </form>
+                    </div>
+
+                    <div className='form-group'>
+                        <div style={{paddingTop:"1rem"}}>
+                            Already have an account? <Link to='/login' className='color-blue'>Login</Link>
+                        </div>
                     </div>
                 </div>
             </div>
