@@ -1,8 +1,8 @@
 import React from "react";
 import NavBar from "./NavBar";
 import Posts from "./Posts";
-import { useEffect } from "react";
-import { Link } from "react-router-dom";
+
+
 import SideBar from "./SideBar";
 
 const DraftPage = () => {
