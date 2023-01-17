@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 
 
 import { useState } from 'react';
@@ -27,11 +27,22 @@ const CreatePost = () => {
     const [showModal, setShowModal] = useState(false);
     const [loaded, setLoaded] = useState(true);
     const navigate = useNavigate();
+    const [id, setId] = useState(null);
     console.log(postContentHtml)
+
+    useEffect(() => {
+        const user = JSON.parse(sessionStorage.getItem('user'));
+        if (user) {
+            setId(user.id);
+        }
+        else {
+            navigate("/");
+        }
+    },[navigate]);
 
     // Finish!
     function handleEditorChange({ html, text }) {
-        // console.log('handleEditorChange', html, text);
+        console.log('handleEditorChange', html, text);
         setPostContentHtml(html);
         setPostContentText(text);
     }
@@ -45,7 +56,6 @@ const CreatePost = () => {
     }
     function publishPost(status) {
         setLoaded(false);
-        const id = JSON.parse(sessionStorage.getItem('user')).id;
         const newPost = {
             title: postTitle,
             content: postContentHtml,
@@ -111,7 +121,10 @@ const CreatePost = () => {
                     </div>
 
                     <div>
-                        <MdEditor style={{ height: "calc(100vh - 300px)" }} renderHTML={text => mdParser.render(text)} onChange={handleEditorChange} />
+                        <MdEditor style={{ height: "calc(100vh - 300px)" }} 
+                        renderHTML={text => mdParser.render(text)} 
+                        onChange={handleEditorChange}
+                            imageAccept='.jpg,.png' />
                     </div>
 
                 </div>

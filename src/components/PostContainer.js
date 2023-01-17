@@ -16,6 +16,7 @@ const PostContainer = () => {
     const [post, setPost] = useState({});
     const [loaded, setLoaded] = useState(false);
     const navigate = useNavigate();
+    const obj = { html: true, md: true, menu: false };
     useEffect(() => {
 
         axios({
@@ -26,7 +27,7 @@ const PostContainer = () => {
             },
             data: {
                 post: {
-                    id:Number(postId)
+                    id: Number(postId)
                 }
             }
         })
@@ -48,42 +49,46 @@ const PostContainer = () => {
                 }
             })
             .catch(error => {
-                console.log(error); 
-                setLoaded(true); 
+                console.log(error);
+                setLoaded(true);
                 alert("Something went wrong. Please try again later");
                 navigate("/");
-             });
-            }, [postId, navigate]);
+            });
+    }, [postId, navigate]);
 
-        useEffect(() => {
+    useEffect(() => {
 
-            if (post) {
-                console.log(post);
-                document.title = post.title;
-            }
+        if (post) {
+            console.log(post);
+            document.title = post.title;
+        }
 
-        }, [post])
+    }, [post])
 
-        console.log(postId);
-        return (
-            <>
-                <NavBar />
-                <div className="post-content">
-                    <Loader loaded={loaded} />
+    console.log(postId);
+    return (
+        <>
+            <NavBar />
+            <div className="post-content">
+                <Loader loaded={loaded} />
 
-                    <div style={{ flex: "1" }}>left box</div>
-                    <div style={{ width: "40%", backgroundColor: "white", borderRadius: "20px" }}>
-                        <div>{post.title}</div>
-                        <div>
-                            
-                                <MdEditor renderHTML={post.content}/>
-                           
-                        </div>
+                <div style={{ flex: "1" }}>left box</div>
+                <div style={{ width: "40%", backgroundColor: "white", borderRadius: "20px" }}>
+                    <div>{post.title}</div>
+                    <div>
+
+
+                        <MdEditor
+                            renderHTML={text => mdParser.render(text)}
+                            view={obj}
+                        />
+
                     </div>
-                    <div style={{ flex: "1" }}>right box</div>
                 </div>
-            </>
-        );
-    }
+                <div style={{ flex: "1" }}>right box</div>
+            </div>
+        </>
+    );
+}
 
 export default PostContainer
