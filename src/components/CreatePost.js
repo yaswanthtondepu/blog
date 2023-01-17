@@ -11,6 +11,9 @@ import MdEditor from 'react-markdown-editor-lite';
 import 'react-markdown-editor-lite/lib/index.css';
 import Modal from './Modal';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+var Loader = require('react-loader');
+
 
 
 
@@ -22,8 +25,10 @@ const CreatePost = () => {
     const [postContentHtml, setPostContentHtml] = useState('');
     const [postContentText, setPostContentText] = useState('');
     const [showModal, setShowModal] = useState(false);
+    const [loaded, setLoaded] = useState(true);
     const navigate = useNavigate();
     console.log(postContentHtml)
+
     // Finish!
     function handleEditorChange({ html, text }) {
         // console.log('handleEditorChange', html, text);
@@ -38,6 +43,49 @@ const CreatePost = () => {
             navigate("/");
         }
     }
+    function publishPost(status) {
+        setLoaded(false);
+        const id = JSON.parse(sessionStorage.getItem('user')).id;
+        const newPost = {
+            title: postTitle,
+            content: postContentHtml,
+            contentText: postContentText,
+            status: status,
+            authorId: id
+        }
+        axios({
+            method: 'post',
+            url: `${process.env.REACT_APP_URL}/post/createpost`,
+            headers: {
+                'content-type': 'application/json'
+            },
+            data: { newPost }
+        })
+            .then(result => {
+                setLoaded(true);
+                console.log(result.data);
+                if (result.data.msg) {
+                    alert("Post published successfully");
+                    navigate("/");
+                }
+                else if (result.data.error) {
+                    if (result.data.error.code === 1) {
+                        alert("Something went wrong. Please try again later");
+                        return;
+                    }
+                }
+                else {
+                    alert("Something went wrong. Please try again later");
+                    return;
+                }
+            })
+            .catch(error => {
+                setLoaded(true);
+                console.log(error);
+                alert("Something went wrong. Please try again later");
+                return;
+            });
+    }
 
     return (
         <div className='create-post'>
@@ -51,6 +99,7 @@ const CreatePost = () => {
                     <IoClose />
                 </div>
             </div>
+            <Loader loaded={loaded} />
 
             <div>
 
@@ -62,7 +111,7 @@ const CreatePost = () => {
                     </div>
 
                     <div>
-                        <MdEditor style={{ height: "calc(100vh - 300px)"}} renderHTML={text => mdParser.render(text)} onChange={handleEditorChange} />
+                        <MdEditor style={{ height: "calc(100vh - 300px)" }} renderHTML={text => mdParser.render(text)} onChange={handleEditorChange} />
                     </div>
 
                 </div>
@@ -70,10 +119,10 @@ const CreatePost = () => {
 
             <div className='cp-btn-container'>
                 <div>
-                    <button className='cp-publish-btn'>Publish</button>
+                    <button className='cp-publish-btn' onClick={() => publishPost(1)}>Publish</button>
                 </div>
                 <div>
-                    <button className='cp-draft-btn'>Save as Draft</button>
+                    <button className='cp-draft-btn' onClick={() => publishPost(0)}>Save as Draft</button>
                 </div>
             </div>
             {showModal && <Modal title="You have unsaved changes"

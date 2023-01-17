@@ -4,10 +4,12 @@ import { useState, useEffect } from 'react'
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import Error from './Error';
+var Loader = require('react-loader');
 
 const Register = () => {
     const [error, setError] = useState(null);
     const navigate = useNavigate();
+    const [loaded, setLoaded] = useState(true);
     useEffect(() => {
         document.title = 'Register';
         if(sessionStorage.getItem('user')) {
@@ -15,6 +17,7 @@ const Register = () => {
         }
     }, [navigate]);
     function handleSubmit(e) {
+        setLoaded(false);
         e.preventDefault();
         setError(null);
         const userName = e.target.username.value;
@@ -55,6 +58,7 @@ const Register = () => {
             data: { newUser }
         })
             .then(result => {
+                setLoaded(true);
                 console.log(result.data);
                 if (result.data.msg) {
                     //setLoaded(true);
@@ -83,7 +87,7 @@ const Register = () => {
                     return;
                 }
             })
-            .catch(error => console.log(error));
+            .catch(error => {console.log(error); setLoaded(true); setError('Something went wrong. Please try again later')});
 
     }
 
@@ -102,6 +106,7 @@ const Register = () => {
                         </div>
                     </div>}
                     <div className='register-form-body'>
+                        <Loader loaded={loaded} />
                         <form onSubmit={handleSubmit} id="register-form">
                             <div className='form-group'>
                                 {/* <label htmlFor="firstName" >First Name</label> */}

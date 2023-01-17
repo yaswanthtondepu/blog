@@ -5,6 +5,7 @@ export const data = [
         "title": "Sunt aut facere repellat provident occaecati excepturi optio reprehenderit",
         "date":"Jan 10,2023",
         "reactions":6
+        
     },
     {
         "id": 2,

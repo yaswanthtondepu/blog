@@ -5,10 +5,12 @@ import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import Error from './Error'
 import { Link } from 'react-router-dom'
+var Loader = require('react-loader');
 
 const Login = () => {
     const [error, setError] = useState(null);
     const navigate = useNavigate();
+    const [loaded, setLoaded] = useState(true);
     useEffect(() => {
         document.title = 'Login';
         if (sessionStorage.getItem('user')) {
@@ -16,6 +18,7 @@ const Login = () => {
         }
     }, [navigate]);
     function handleSubmit(e) {
+        setLoaded(false);
         e.preventDefault();
         setError(null);
         const email = e.target.email.value;
@@ -34,6 +37,7 @@ const Login = () => {
             data: { User }
         })
             .then(result => {
+                setLoaded(true);
                 console.log(result.data);
                 if (result.data.msg) {
                     //setLoaded(true);
@@ -64,6 +68,7 @@ const Login = () => {
             .catch(error => 
                 {
                     console.log(error);
+                    setLoaded(true);
                     setError('Something went wrong. Please try again later');
                     return;
                 }
@@ -86,6 +91,7 @@ const Login = () => {
                         </div>}
                     <div className='register-form-body'>
                         <form onSubmit={handleSubmit} id="login-form">
+                            <Loader loaded={loaded} />
                             <div className='form-group'>
                                 {/* <label htmlFor='email'>Email</label> */}
                                 <input type='email' name='email' placeholder='Email address' required autoComplete='nope'/>

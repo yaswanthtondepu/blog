@@ -246,6 +246,7 @@ div.side-bar.left{
     display: flex;
     flex-direction: column;
     gap: 1rem;
+    min-width: 600px;
 }
 .post-author-cont{
     display: flex;
@@ -392,5 +393,11 @@ div.side-bar.left{
     }
     .home-page{
         height: calc(100vh - 80px);
+    }
+    .post{
+        min-width: 300px;
+    }
+    .side-bar{
+        display: none !important;
     }
 }

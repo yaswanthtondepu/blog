@@ -7,14 +7,14 @@ import { Link } from 'react-router-dom';
 
 const Post = ({ content }) => {
     return (
-        <Link to={"/post/" + content.id} className='post cursor-pointer'>
+        <Link to={"/post/" + content.postId} className='post cursor-pointer'>
             <div className='post-author-cont'>
                 <div className='post-author-img'>
                     <IoPerson style={{ fontSize: "1rem", cursor: "pointer" }} />
                 </div>
                 <div className='post-author-name cursor-pointer'>
-                    <div style={{ fontSize: "12px" }}>{content.author}</div>
-                    <div style={{ fontSize: "10px" }}>{content.date}</div>
+                    <div style={{ fontSize: "12px" }}>{content.username}</div>
+                    <div style={{ fontSize: "10px" }}>{content.updated_at}</div>
                 </div>
 
 
@@ -24,12 +24,12 @@ const Post = ({ content }) => {
                 <div className='flex gap-2'>
                     <div className='flex items-center gap-1 cursor-pointer post-likes'>
                         <div><IoHeartOutline className='text-sm' /></div>
-                        <div className='text-xs font-light'>{content.reactions} Reactions</div>
+                        <div className='text-xs font-light'>{content.reactionCount} Reactions</div>
                     </div>
 
                     <div className='flex items-center gap-1 cursor-pointer post-likes'>
                         <div><FaRegComment className='text-sm' /></div>
-                        <div className='text-xs font-light'>{content.reactions} Comments</div>
+                        <div className='text-xs font-light'>{content.commentCount} Comments</div>
                     </div>
                 </div>
                 <div className='flex gap-1'>
