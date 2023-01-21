@@ -6,25 +6,27 @@ import { useEffect } from 'react'
 import SideBar from './SideBar'
 
 
-const HomePage = () => {
 
+const HomePage = () => {
   useEffect(() => {
     document.title = 'BlogYY'
   }, [])
 
   return (
     <>
-      <NavBar />
+    
+      <NavBar className='flex-1' />
       <div className="home-page">
-        <div className='side-bar'>
+        <div className='md:block hidden' >
           <SideBar />
         </div>
         <div>
           <Posts />
         </div>
-        <div className="side-bar"></div>
+
       </div>
     </>
+
   );
 }
 

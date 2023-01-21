@@ -4,12 +4,14 @@ import { CiSearch } from "react-icons/ci";
 import { IoPerson } from "react-icons/io5";
 import { useState } from "react";
 import useComponentVisible from "./useComponentVisible";
+// import { useNavigate } from 'react-router-dom';
 
 const NavBar = () => {
   const [showProfileInfo, setShowProfileInfo] = useState(false);
   const { ref, isComponentVisible, setIsComponentVisible } = useComponentVisible(false);
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
   const [userDetails, setUserDetails] = useState({});
+  // const navigate = useNavigate();
   useEffect(() => {
     if (sessionStorage.getItem("user")) {
       setIsUserLoggedIn(true);
@@ -20,18 +22,21 @@ const NavBar = () => {
   function logOut() {
     sessionStorage.removeItem("user");
     setIsUserLoggedIn(false);
+
+    window.location.reload(false);
   }
 
   return (
     <>
-      <div style={Nav} className="navbar">
+      <div style={Nav} className="navbar w-full border">
+        <div className="block md:hidden">Hamburger</div>
         <div style={{ paddingLeft: "2rem", display: "flex", alignItems: "center", gap: "2rem" }} className="left-header">
           <div>
             <Link to="/" style={{ fontFamily: "Moon Dance", fontSize: "2.5rem" }}>BlogYY</Link>
           </div>
           <div className="search">
             <input type="text" placeholder="Search..." className="inp-text" ></input>
-            <div style={{ backgroundColor: "#ccc", cursor: "pointer", padding: "7px", borderRadius: "0 5px 5px 0" }}>
+            <div style={{ cursor: "pointer", padding: "7px", borderRadius: "0 5px 5px 0" }}>
               <CiSearch style={{ fontSize: "22px" }} />
             </div>
           </div>

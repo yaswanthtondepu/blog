@@ -26,6 +26,7 @@ const CreatePost = () => {
     const [postContentText, setPostContentText] = useState('');
     const [showModal, setShowModal] = useState(false);
     const [loaded, setLoaded] = useState(true);
+    const [modalResponse, setModalResponse] = useState(0);
     const navigate = useNavigate();
     const [id, setId] = useState(null);
     console.log(postContentHtml)
@@ -39,6 +40,17 @@ const CreatePost = () => {
             navigate("/");
         }
     },[navigate]);
+
+    useEffect(() => { 
+        console.log(modalResponse);
+        if(modalResponse === 1){
+            navigate("/");
+        }
+        else{
+            setShowModal(false);
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [modalResponse])
 
     // Finish!
     function handleEditorChange({ html, text }) {
@@ -56,6 +68,11 @@ const CreatePost = () => {
     }
     function publishPost(status) {
         setLoaded(false);
+        if (postContentText.trim().length === 0 || postTitle.trim().length === 0) {
+            alert("Post title and content cannot be empty");
+            setLoaded(true);
+            return;
+        }
         const newPost = {
             title: postTitle,
             content: postContentHtml,
@@ -140,7 +157,7 @@ const CreatePost = () => {
             </div>
             {showModal && <Modal title="You have unsaved changes"
                 content="You've made changes to your post. Do you want to navigate to leave this page?"
-                btn1="Yes, leave the page" btn2="No, keep editing" setShowModal={setShowModal} />}
+                btn1="Yes, leave the page" btn2="No, keep editing" setShowModal={setShowModal} setModalResponse={setModalResponse} />}
         </div>
 
 

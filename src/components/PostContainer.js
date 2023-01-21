@@ -1,13 +1,21 @@
 import React from 'react'
 import { useParams } from 'react-router-dom'
 import NavBar from './NavBar'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom';
 import MarkdownIt from 'markdown-it';
 import MdEditor from 'react-markdown-editor-lite';
 import 'react-markdown-editor-lite/lib/index.css';
-// import ReactHtmlParser, { processNodes, convertNodeToElement, htmlparser2 } from 'react-html-parser';
+import { IoPerson } from 'react-icons/io5';
+import moment from 'moment';
+import Comments from './Comments'
+import Like from './Like'
+import { SlLike } from 'react-icons/sl'
+import { BsBookmark } from 'react-icons/bs'
+import { FaRegComments } from 'react-icons/fa'
+import { AiOutlineDelete } from 'react-icons/ai'
+import Modal from './Modal'
 var Loader = require('react-loader');
 
 const PostContainer = () => {
@@ -15,8 +23,20 @@ const PostContainer = () => {
     const { postId } = useParams();
     const [post, setPost] = useState({});
     const [loaded, setLoaded] = useState(false);
+    const [showModal, setShowModal] = useState(false);
+    const [modalResponse, setModalResponse] = useState(0);
+    const commentRef = useRef(null);
     const navigate = useNavigate();
-    const obj = { html: true, md: true, menu: false };
+    const obj = { html: true, md: false, menu: false };
+    let user = JSON.parse(sessionStorage.getItem('user'));
+
+    useEffect(() => {
+        if (modalResponse === 1) {
+            deletePost();
+        }
+        setShowModal(false);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [modalResponse]);
     useEffect(() => {
 
         axios({
@@ -62,8 +82,44 @@ const PostContainer = () => {
             console.log(post);
             document.title = post.title;
         }
+        if (!post) {
+            navigate("/");
+        }
 
-    }, [post])
+    }, [post, navigate])
+
+    const executeScroll = () => {
+        commentRef.current.scrollIntoView({ behavior: "smooth"})
+    }
+
+    function deletePost() {
+        axios({
+            method: 'post',
+            url: `${process.env.REACT_APP_URL}/post/deletepostbyid`,
+            headers: {
+                'content-type': 'application/json'
+            },
+            data: {
+                post: {
+                    id: Number(postId),
+                    userId: user.id
+                }
+            }
+        })
+            .then(result => {
+                if (result.data.msg) {
+                    alert("Post deleted successfully");
+                    navigate("/");
+                }
+                else {
+                    alert("Something went wrong. Please try again later");
+                    return;
+                }
+            })
+            .catch(error => {
+                alert("Something went wrong. Please try again later");
+            });
+    }
 
     console.log(postId);
     return (
@@ -72,20 +128,51 @@ const PostContainer = () => {
             <div className="post-content">
                 <Loader loaded={loaded} />
 
-                <div style={{ flex: "1" }}>left box</div>
-                <div style={{ width: "40%", backgroundColor: "white", borderRadius: "20px" }}>
-                    <div>{post.title}</div>
-                    <div>
-
-
-                        <MdEditor
-                            renderHTML={text => mdParser.render(text)}
-                            view={obj}
-                        />
-
+                <div style={{ flex: "1", display: "flex", flexDirection: "column", gap: "1rem", alignItems: "end", marginRight: "1rem" }}>
+                    <Like size="60px" fontSize='30px' Icon={SlLike} bg_color="bg-red-200" text_color='text-red-500' border_color='border-red-500' fill='fill-red-500' />
+                    <Like size="60px" fontSize='30px' Icon={BsBookmark} bg_color="bg-blue-200" text_color='text-blue-500' border_color='border-blue-500' fill='fill-blue-500' />
+                    <div onClick={executeScroll}>
+                        <Like size="60px" fontSize='30px' Icon={FaRegComments} bg_color="bg-none" text_color='text-yellow-500' border_color='border-none' fill='fill-yellow-500' />
                     </div>
+                   {user?.id === post?.author_id && <div onClick={()=> setShowModal(true)}>
+                        <Like size="60px" fontSize='30px' Icon={AiOutlineDelete} bg_color="bg-none" text_color='text-red-500' border_color='border-none' fill='fill-red-500' />
+                    </div>}
                 </div>
-                <div style={{ flex: "1" }}>right box</div>
+                <div className='w-3/5 '>
+                    <div className='rounded bg-white  px-20 py-5 border' >
+                        <div className='post-author-cont'>
+                            <div className='post-author-img my-8'>
+                                <IoPerson style={{ fontSize: "2.3rem", cursor: "pointer" }} />
+                            </div>
+                            <div className='post-author-name cursor-pointer'>
+                                <div style={{ fontSize: "16px", textTransform: "capitalize" }}>{post?.firstname || "First"} {post?.lastname || "Last"}</div>
+                                <div style={{ fontSize: "14px" }}>{moment.utc(post?.updated_at).format('MM/DD/YYYY HH:MM')}</div>
+                            </div>
+
+
+                        </div>
+                        <div className='font-bold text-4xl'>{post?.title}</div>
+                        <div>
+
+                            {post?.contenttext ? <MdEditor
+                                value={post?.contenttext}
+                                renderHTML={text => mdParser.render(text)}
+                                view={obj} style={{ border: "0px" }}
+                            /> : <div></div>}
+
+
+                        </div>
+                    </div>
+
+                    <div ref={commentRef}>
+                        <Comments post={post} />
+                    </div>
+
+                    {showModal && <Modal title="Delete Post"
+                        content="Are you sure you want to delete this post? This action cannot be undone."
+                        btn1="Yes, Delete Post" btn2="Nah! I changed my mind" setShowModal={setShowModal} setModalResponse={setModalResponse} />}
+                </div>
+                <div style={{ flex: "1" }}></div>
             </div>
         </>
     );

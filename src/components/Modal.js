@@ -1,8 +1,7 @@
 import React from 'react'
 import { IoClose } from 'react-icons/io5';
-import { Link } from 'react-router-dom';
 
-const Modal = ({ title, content, btn1, btn2, setShowModal }) => {
+const Modal = ({ title, content, btn1, btn2, setShowModal, setModalResponse }) => {
     return (
         <div className='modal'>
             <div className='modal-content'>
@@ -14,10 +13,10 @@ const Modal = ({ title, content, btn1, btn2, setShowModal }) => {
                     {content}
                 </div>
                 <div className='modal-footer'>
-                    <button className='btn btn-warn'>
-                        <Link to="/">{btn1}</Link>
+                    <button className='btn btn-warn' onClick={() => setModalResponse(1)}>
+                      {btn1}
                     </button>
-                    <button className='btn btn-secondary' onClick={()=>setShowModal(false)}>{btn2}</button>
+                    <button className='btn btn-secondary' onClick={() => setShowModal(false)}>{btn2}</button>
                 </div>
             </div>
 

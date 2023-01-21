@@ -2,6 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
+
+
 @import url('https://fonts.googleapis.com/css2?family=Moon+Dance&family=Nunito:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,200;1,300;1,400;1,600;1,700&display=swap');
 
 :root {
@@ -14,6 +16,7 @@
 
 body{
     font-family: 'Nunito';
+    scroll-behavior: smooth;
 }
 
 .btn{
@@ -209,7 +212,7 @@ body{
 
 .home-page{
     background-color: var(--bg-gray);
-    height: calc(100vh - 60px);
+    height: calc(100vh - 62px);
     display: flex;
 
     padding-top: 1rem;
@@ -226,6 +229,8 @@ div.side-bar.left{
 .side-bar.left .items{
     padding: 10px;
     margin-right: 10px;
+
+
     margin-bottom: 10px;
 }
 .side-bar.left .items:hover{
@@ -246,7 +251,7 @@ div.side-bar.left{
     display: flex;
     flex-direction: column;
     gap: 1rem;
-    min-width: 600px;
+    /* min-width: 600px; */
 }
 .post-author-cont{
     display: flex;
@@ -280,13 +285,13 @@ div.side-bar.left{
 .post-content{
     padding: 2rem;
     background-color: var(--bg-gray);
-    height: calc(100vh - 60px);
+    height: calc(100vh - 62px);
     overflow: auto;
     display: flex;
 }
 .register{
     background-color: var(--bg-gray);
-    height: calc(100vh - 60px);
+    height: calc(100vh - 62px);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -351,9 +356,23 @@ div.side-bar.left{
     border-radius: 5px;
 }
 
+.tabs{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    margin-bottom: 1rem;
+    cursor: pointer;
+    font-size: large;
+}
+
+.rc-md-editor .editor-container .sec-md .input{
+    overflow-y: auto !important;
+}
 
 
-@media only screen and (max-device-width: 718px) {
+
+@media only screen and (max-device-width: 768px) {
     .left-header{
         flex-direction: column;
         gap:10px !important;
