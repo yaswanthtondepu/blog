@@ -79,7 +79,7 @@ const Comment = ({ comment, getPostComments }) => {
 
         </div>
 
-        {user.id === comment.authorId && 
+        {user?.id === comment.authorId && 
           <div style={{display:"flex", gap:"1rem", alignItems:"center", justifyContent:"flex-end"}}> 
               <div style={{ paddingBottom: "1rem" }} onClick={deleteComment}>
               <AiOutlineDelete style={{ fontSize: "1rem", cursor: "pointer", color: "red" }} />
