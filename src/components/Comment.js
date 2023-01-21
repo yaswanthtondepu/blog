@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import { IoPerson } from "react-icons/io5";
 import moment from 'moment';
 import MarkdownIt from 'markdown-it';
@@ -10,8 +10,13 @@ import axios from 'axios';
 
 
 const Comment = ({ comment, getPostComments }) => {
-  const obj = { html: true, md: false, menu: false };
+  const readOnlyMode = { html: true, md: false, menu: false };
+  const editMode = { html: false, md: true, menu: true };
   let user = JSON.parse(sessionStorage.getItem('user'));
+  const [editedComment, setEditedComment] = useState(comment?.content);
+  const [showButtons, setShowButtons] = useState(false);
+  const [editable, setEditable] = useState(true);
+  const [editBtnClicked, setEditBtnClicked] = useState(false);
   const mdParser = new MarkdownIt(/* Markdown-it options */);
 
   function deleteComment() {
@@ -20,6 +25,17 @@ const Comment = ({ comment, getPostComments }) => {
       deleteCommentAPI();
     }
 
+  }
+
+  function handleEditorChange({ html, text }) {
+    if (text.trim().length > 0) {
+      setShowButtons(true);
+    }
+    else {
+      setShowButtons(false);
+    }
+
+    setEditedComment(text);
   }
 
   function deleteCommentAPI() {
@@ -51,8 +67,55 @@ const Comment = ({ comment, getPostComments }) => {
       });
   }
 
+  function togglePreview() {
+    setEditable(!editable);
+  }
+
+  function submitEditedComment() {
+    let editComment = {
+      content: editedComment,
+      id: comment.id,
+    }
+    axios({
+      method: 'post',
+      url: `${process.env.REACT_APP_URL}/comment/editComment`,
+      headers: {
+        'content-type': 'application/json'
+      },
+      data: { editComment }
+    })
+      .then(result => {
+
+        console.log(result.data);
+        if (result.data.msg) {
+          alert("Comment edited successfully");
+          setEditable(true);
+          setEditBtnClicked(false);
+          setShowButtons(false);
+          getPostComments();
+        }
+        else if (result.data.error) {
+          if (result.data.error.code === 1) {
+            alert("Something went wrong. Please try again later");
+            return;
+          }
+        }
+        else {
+          alert("Something went wrong. Please try again later");
+          return;
+        }
+      })
+      .catch(error => {
+        console.log(error);
+        alert("Something went wrong. Please try again later");
+        return;
+      });
+
+  }
+
   function editComment() {
-    console.log("edit comment");
+    setEditBtnClicked(true);
+    setShowButtons(true);
   }
   return (
     <div className='mt-2'>
@@ -73,8 +136,41 @@ const Comment = ({ comment, getPostComments }) => {
           {comment?.content ? <MdEditor
             value={comment?.content}
             renderHTML={text => mdParser.render(text)}
-            view={obj} style={{ border: "0px" }}
+            view={readOnlyMode} style={{ border: "0px" }}
           /> : <div></div>}
+
+          {editBtnClicked  && editable ? <MdEditor
+            value={editedComment}
+            onChange={handleEditorChange}
+            renderHTML={text => mdParser.render(text)}
+            view={editMode} style={{ border: "0px" }}
+          />:<></>}
+
+          {editBtnClicked && !editable ?<> <div>Preview Mode</div> <MdEditor
+            value={editedComment}
+            renderHTML={text => mdParser.render(text)}
+            view={readOnlyMode} style={{ border: "0px" }}
+          /> </>: <div></div>}
+
+          {showButtons && <div className='cp-btn-container'>
+            <div>
+              <button className='cp-publish-btn' disabled={editedComment.trim().length === 0}
+                style={editedComment.trim().length === 0 ? { cursor: "not-allowed" } : { cursor: "pointer" }}
+                onClick={submitEditedComment}>Submit</button>
+            </div>
+            <div>
+              <button className='cp-draft-btn' onClick={togglePreview} disabled={editedComment.trim().length === 0}
+                style={editedComment.trim().length === 0 ? { cursor: "not-allowed" } : { cursor: "pointer" }}>
+                {editable ? 'Preview' : 'Continue editing'}
+              </button>
+            </div>
+
+            <div>
+              <button className='cp-draft-btn' onClick={()=>{setEditBtnClicked(false); setShowButtons(false); setEditedComment(comment.content); setEditable(true)}}>
+               Cancel
+              </button>
+            </div>
+          </div>}
 
 
         </div>
