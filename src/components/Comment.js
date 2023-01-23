@@ -126,7 +126,8 @@ const Comment = ({ comment, getPostComments }) => {
           </div>
           <div className='post-author-name cursor-pointer'>
             <div style={{ fontSize: "12px", textTransform: "capitalize" }}>{comment?.firstname || "First"} {comment?.lastname || "Last"}</div>
-            <div style={{ fontSize: "10px" }}>{moment.utc(comment?.updated_at).format('MMM DD YYYY HH:MM')}</div>
+            {comment?.updated_at === comment?.created_at && <div style={{ fontSize: "10px" }}>{moment.utc(comment?.updated_at).format('MMM DD YYYY HH:MM')}</div>}
+            {comment?.updated_at !== comment?.created_at && <div style={{ fontSize: "10px" }}>Edited on {moment.utc(comment?.updated_at).format('MMM DD YYYY HH:MM')}</div>}
           </div>
 
 

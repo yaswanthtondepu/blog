@@ -88,15 +88,21 @@ const UserProfilePage = () => {
 
                 <div className='user-details flex justify-center items-center absolute'>
                     <div className='user-details-img'>
-                        <IoPerson style={{ fontSize: "4rem"}} />
+                        <IoPerson style={{ fontSize: "4rem", color:"#fff"}} />
                     </div>
 
                     <div className='font-semibold capitalize'>{userDetails?.firstname} {userDetails?.lastname}</div>
-                    <div>Joined on {moment.utc(userDetails?.joined).format('MMM DD YYYY HH:MM')}</div>
+                        {userDetails?.joined && <div>Joined on {moment.utc(userDetails?.joined).format('MMM DD YYYY HH:MM')}</div>}
+                        {!userDetails?.joined && <div>Founder & Developer of BlogYY</div>}
                 </div>
                 </div>
                 <div className='flex justify-center user-posts'>
-                    {userPosts.map((post) => (<Post key={post.postId} content={post} />))}
+                    <div className='crayons-card'>
+                        <div>{userPosts?.length} {userPosts?.length ===1 ? `post` : 'posts'} published</div>
+                    </div>
+                    <div>
+                        {userPosts.map((post) => (<Post key={post.postId} content={post} />))}
+                    </div>
                 </div>
             </div>
         </div>

@@ -128,7 +128,7 @@ const PostContainer = () => {
             <div className="post-content">
                 <Loader loaded={loaded} />
 
-                <div style={{ flex: "1", display: "flex", flexDirection: "column", gap: "1rem", alignItems: "end", marginRight: "1rem" }}>
+                <div className='post-reactions'>
                     <Like size="60px" fontSize='30px' Icon={SlLike} bg_color="bg-red-200" text_color='text-red-500' border_color='border-red-500' fill='fill-red-500' />
                     <Like size="60px" fontSize='30px' Icon={BsBookmark} bg_color="bg-blue-200" text_color='text-blue-500' border_color='border-blue-500' fill='fill-blue-500' />
                     <div onClick={executeScroll}>
@@ -138,8 +138,8 @@ const PostContainer = () => {
                         <Like size="60px" fontSize='30px' Icon={AiOutlineDelete} bg_color="bg-none" text_color='text-red-500' border_color='border-none' fill='fill-red-500' />
                     </div>}
                 </div>
-                <div className='w-3/5 '>
-                    <div className='rounded bg-white  px-20 py-5 border' >
+                <div className='lg:w-3/5 '>
+                    <div className='rounded bg-white  lg:px-20 px-5 py-5 border' >
                         <div className='post-author-cont'>
                             <div className='post-author-img my-8'>
                                 <IoPerson style={{ fontSize: "2.3rem", cursor: "pointer" }} />

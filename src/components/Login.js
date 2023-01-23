@@ -77,12 +77,13 @@ const Login = () => {
     }
 
     function signInWithGoogle() {
-        axios.get(`${process.env.REACT_APP_URL}/auth/login/federated/google`)
-            .then(result => {
-                console.log(result.data);
-            }).catch(error => {
-                console.log(error);
-            });
+        // axios.get(`${process.env.REACT_APP_URL}/auth/login/federated/google`)
+        //     .then(result => {
+        //         console.log(result.data);
+        //     }).catch(error => {
+        //         console.log(error);
+        //     });
+        window.location.href= `${process.env.REACT_APP_URL}/auth/google`;
     }
     return (
         <>
