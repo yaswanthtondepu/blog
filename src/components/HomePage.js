@@ -10,6 +10,7 @@ import SideBar from './SideBar'
 const HomePage = () => {
   useEffect(() => {
     document.title = 'BlogYY'
+    console.log('HomePage');
   }, [])
 
   return (

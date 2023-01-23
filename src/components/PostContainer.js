@@ -146,7 +146,7 @@ const PostContainer = () => {
                             </div>
                             <div className='post-author-name cursor-pointer'>
                                 <div style={{ fontSize: "16px", textTransform: "capitalize" }}>{post?.firstname || "First"} {post?.lastname || "Last"}</div>
-                                <div style={{ fontSize: "14px" }}>{moment.utc(post?.updated_at).format('MM/DD/YYYY HH:MM')}</div>
+                                <div style={{ fontSize: "14px" }}>{moment.utc(post?.updated_at).format('MMM DD YYYY HH:MM')}</div>
                             </div>
 
 

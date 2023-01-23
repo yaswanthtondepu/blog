@@ -126,7 +126,7 @@ const Comment = ({ comment, getPostComments }) => {
           </div>
           <div className='post-author-name cursor-pointer'>
             <div style={{ fontSize: "12px", textTransform: "capitalize" }}>{comment?.firstname || "First"} {comment?.lastname || "Last"}</div>
-            <div style={{ fontSize: "10px" }}>{moment.utc(comment?.updated_at).format('MM/DD/YYYY HH:MM')}</div>
+            <div style={{ fontSize: "10px" }}>{moment.utc(comment?.updated_at).format('MMM DD YYYY HH:MM')}</div>
           </div>
 
 
@@ -139,12 +139,12 @@ const Comment = ({ comment, getPostComments }) => {
             view={readOnlyMode} style={{ border: "0px" }}
           /> : <div></div>}
 
-          {editBtnClicked  && editable ? <MdEditor
+          {editBtnClicked  && editable ?<><div>Edit Comment Below</div><MdEditor
             value={editedComment}
             onChange={handleEditorChange}
             renderHTML={text => mdParser.render(text)}
             view={editMode} style={{ border: "0px" }}
-          />:<></>}
+          /></>:<></>}
 
           {editBtnClicked && !editable ?<> <div>Preview Mode</div> <MdEditor
             value={editedComment}

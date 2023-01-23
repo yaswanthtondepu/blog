@@ -370,6 +370,43 @@ div.side-bar.left{
     overflow-y: auto !important;
 }
 
+.user-profile-page{
+    background-color: var(--bg-gray);
+    height: calc(100vh - 62px);
+    padding-top: 1rem;
+    overflow: auto;
+}
+.user-details-img{
+    background-color: var(--bg-gray);
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    padding: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    top:-3.5rem;
+    
+}
+
+.user-details{
+    border: 1px solid var(--bg-gray);
+    padding: 0 4rem 4rem 4rem;
+    flex-direction: column;
+    background-color: #fff;
+    width: 60%;
+    border-radius: 5px;
+    height: -moz-max-content;
+    height: max-content;
+   /* box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px; */
+   box-shadow: rgba(33, 35, 38, 0.1) 0px 10px 10px -10px;
+   top: 75px;
+}
+
+.user-posts{
+    margin-top: 160px;
+}
 
 
 @media only screen and (max-device-width: 768px) {
@@ -418,5 +455,8 @@ div.side-bar.left{
     }
     .side-bar{
         display: none !important;
+    }
+    .user-details{
+        width: 90%;
     }
 }

@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import Error from './Error'
 import { Link } from 'react-router-dom'
+import GoogleButton from 'react-google-button'
 var Loader = require('react-loader');
 
 const Login = () => {
@@ -23,7 +24,7 @@ const Login = () => {
         setError(null);
         const email = e.target.email.value;
         const password = e.target.password.value;
-        
+
         const User = {
             email,
             password
@@ -65,21 +66,35 @@ const Login = () => {
                     return;
                 }
             })
-            .catch(error => 
-                {
-                    console.log(error);
-                    setLoaded(true);
-                    setError('Something went wrong. Please try again later');
-                    return;
-                }
+            .catch(error => {
+                console.log(error);
+                setLoaded(true);
+                setError('Something went wrong. Please try again later');
+                return;
+            }
             );
 
+    }
+
+    function signInWithGoogle() {
+        axios.get(`${process.env.REACT_APP_URL}/auth/login/federated/google`)
+            .then(result => {
+                console.log(result.data);
+            }).catch(error => {
+                console.log(error);
+            });
     }
     return (
         <>
             <NavBar />
             <div className='register'>
+
                 <div className='register-form'>
+                    <div className='register-form-header'>
+                        <GoogleButton
+                            onClick={signInWithGoogle}
+                        />
+                    </div>
                     <div className='register-form-header'>
                         <h3>Login</h3>
                     </div>
@@ -94,13 +109,13 @@ const Login = () => {
                             <Loader loaded={loaded} />
                             <div className='form-group'>
                                 {/* <label htmlFor='email'>Email</label> */}
-                                <input type='email' name='email' placeholder='Email address' required autoComplete='nope'/>
+                                <input type='email' name='email' placeholder='Email address' required autoComplete='nope' />
                             </div>
                             <div className='form-group'>
                                 {/* <label htmlFor='password'>Password</label> */}
                                 <input type='password' name='password' placeholder='Password' required autoComplete='nope' />
                             </div>
-                            
+
                             <div className='form-group flex items-center justify-center'>
                                 <button className='btn btn-primary'>Login</button>
                             </div>

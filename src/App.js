@@ -7,9 +7,9 @@ import PostContent from './components/PostContainer';
 import MyPostPage from './components/MyPostPage';
 import DraftPage from './components/DraftPage';
 import BookmarkPage from './components/BookmarkPage';
-import Like from './components/Like'
 import Login from './components/Login';
 import Register from './components/Register';
+import UserProfilePage from './components/UserProfilePage';
 
 
 
@@ -27,7 +27,7 @@ function App() {
         <Route path="/post/:postId" element={<PostContent />} />
         <Route path='/login' element={<Login/>} />
         <Route path='/register' element={<Register />} />
-        <Route path='/like' element={<Like fill="fill-yellow-200" bg_color="bg-yellow-500" border_color="border-yellow-200" text_color="bg-yellow-500"/>} />
+        <Route path='/user/:userName' element={<UserProfilePage />} />
 
       </Routes>
     </BrowserRouter>
