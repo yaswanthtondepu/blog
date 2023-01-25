@@ -1,8 +1,8 @@
 import React from 'react'
 import {SlLike} from 'react-icons/sl'
 import { useState } from 'react';
-const Like = ({callback,bg_color ="bg-blue-200",fontSize = "100px",border_color="border-blue-500",text_color="text-blue-500",size="200px",fill="fill-blue-500",Icon=SlLike})=> {
-    const [selection, setselection] = useState(false);
+const Like = ({callback,bg_color ="bg-blue-200",fontSize = "100px",border_color="border-blue-500",text_color="text-blue-500",size="200px",fill="fill-blue-500",Icon=SlLike, bookmarked})=> {
+  const [selection, setselection] = useState(bookmarked);
     const clickhandler = () =>{
         setselection((selection)=>{
             if(callback){

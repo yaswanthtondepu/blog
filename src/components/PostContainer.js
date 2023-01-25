@@ -25,6 +25,7 @@ const PostContainer = () => {
     const [loaded, setLoaded] = useState(false);
     const [showModal, setShowModal] = useState(false);
     const [modalResponse, setModalResponse] = useState(0);
+    const [isPostBookmarked, setIsPostBookmarked] = useState( post.isBookmarked === 1 ? true : false);
     const commentRef = useRef(null);
     const navigate = useNavigate();
     const obj = { html: true, md: false, menu: false };
@@ -47,7 +48,8 @@ const PostContainer = () => {
             },
             data: {
                 post: {
-                    id: Number(postId)
+                    id: Number(postId),
+                    userId: user?.id || 0
                 }
             }
         })
@@ -74,13 +76,19 @@ const PostContainer = () => {
                 alert("Something went wrong. Please try again later");
                 navigate("/");
             });
-    }, [postId, navigate]);
+    }, [postId, navigate, user?.id]);
 
     useEffect(() => {
 
         if (post) {
             console.log(post);
             document.title = post.title;
+            if (post.isBookmarked === 1) {
+                setIsPostBookmarked(true);
+            }
+            else {
+                setIsPostBookmarked(false);
+            }
         }
         if (!post) {
             navigate("/");
@@ -89,7 +97,7 @@ const PostContainer = () => {
     }, [post, navigate])
 
     const executeScroll = () => {
-        commentRef.current.scrollIntoView({ behavior: "smooth"})
+        commentRef.current.scrollIntoView({ behavior: "smooth" })
     }
 
     function deletePost() {
@@ -121,6 +129,40 @@ const PostContainer = () => {
             });
     }
 
+    function toggleBookmark() {
+        if (!user) {
+            alert("Please login to bookmark posts");
+            return;
+        }
+        axios({
+            method: 'post',
+            url: `${process.env.REACT_APP_URL}/bookmark/bookmarkpost`,
+            headers: {
+                'content-type': 'application/json'
+            },
+            data: {
+                post: {
+                    postId: Number(postId),
+                    userId: user.id
+                }
+            }
+        })
+            .then(result => {
+                if (result.data.msg) {
+                    setPost({ ...post, isBookmarked: post.isBookmarked === 0 ? 1 : 0});
+                    setIsPostBookmarked(!isPostBookmarked);
+                }
+                else {
+                    alert("Something went wrong. Please try again later");
+                    return;
+                }
+            })
+            .catch(error => {
+                alert("Something went wrong. Please try again later");
+            });
+
+    }
+
     console.log(postId);
     return (
         <>
@@ -130,11 +172,15 @@ const PostContainer = () => {
 
                 <div className='post-reactions'>
                     <Like size="60px" fontSize='30px' Icon={SlLike} bg_color="bg-red-200" text_color='text-red-500' border_color='border-red-500' fill='fill-red-500' />
-                    <Like size="60px" fontSize='30px' Icon={BsBookmark} bg_color="bg-blue-200" text_color='text-blue-500' border_color='border-blue-500' fill='fill-blue-500' />
+                    <div onClick={toggleBookmark}>
+                        {isPostBookmarked && <Like size="60px" fontSize='30px' Icon={BsBookmark} bg_color="bg-blue-200" text_color='text-blue-500' border_color='border-blue-500' fill='fill-blue-500' bookmarked={true} />}
+                        {!isPostBookmarked && <Like size="60px" fontSize='30px' Icon={BsBookmark} bg_color="bg-blue-200" text_color='text-blue-500' border_color='border-blue-500' fill='fill-blue-500' bookmarked={false} />}
+                    </div>
+
                     <div onClick={executeScroll}>
                         <Like size="60px" fontSize='30px' Icon={FaRegComments} bg_color="bg-none" text_color='text-yellow-500' border_color='border-none' fill='fill-yellow-500' />
                     </div>
-                   {user?.id === post?.author_id && <div onClick={()=> setShowModal(true)}>
+                    {user?.id === post?.author_id && <div onClick={() => setShowModal(true)}>
                         <Like size="60px" fontSize='30px' Icon={AiOutlineDelete} bg_color="bg-none" text_color='text-red-500' border_color='border-none' fill='fill-red-500' />
                     </div>}
                 </div>
