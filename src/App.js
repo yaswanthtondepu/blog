@@ -10,6 +10,7 @@ import BookmarkPage from './components/BookmarkPage';
 import Login from './components/Login';
 import Register from './components/Register';
 import UserProfilePage from './components/UserProfilePage';
+import PageDown from './components/PageDown';
 
 
 
@@ -17,7 +18,7 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<HomePage />} />
+        <Route path="/" element={<PageDown />} />
         <Route path="/home" element={<HomePage />} />
         <Route path="/myposts" element={<MyPostPage />} />
         <Route path="/drafts" element={<DraftPage />} />
