@@ -16,6 +16,7 @@ const BookmarkPage = () => {
   const navigate = useNavigate();
   useEffect(() => {
     document.title = "Bookmarks";
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     if (!user) {
       alert("Please login to view your bookmarks");
       navigate("/");
@@ -49,9 +50,8 @@ const BookmarkPage = () => {
         });
 
     }
-
-
-  }, [user, navigate]);
+   // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[]);
 
   return (
     <>
